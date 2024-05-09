@@ -28,5 +28,3 @@
     (open-file-input-port loc)
     (lambda (ip)
       (list->vector (bytevector->u8-list (get-bytevector-some ip))))))
-
-
