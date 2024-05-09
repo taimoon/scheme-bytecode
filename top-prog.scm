@@ -1,0 +1,26 @@
+(define (filter proc xs)
+  (if (pair? xs)
+      (if (proc (car xs))
+          (cons (car xs) (filter proc (cdr xs)))
+          (filter proc (cdr xs)))
+      '()))
+
+(define map
+  (lambda (f ls . more)
+    (if (null? more)
+        (let map1 ([ls ls])
+          (if (null? ls)
+              '()
+              (cons (f (car ls))
+                    (map1 (cdr ls)))))
+        (let map-more ([ls ls] [more more])
+          (if (null? ls)
+              '()
+              (cons
+                (apply f (car ls) (map car more))
+                (map-more (cdr ls) (map cdr more))))))))
+
+(define (fold-left proc obj xs)
+  (if (pair? xs)
+      (fold-left proc (proc obj (car xs)) (cdr xs))
+      obj))
