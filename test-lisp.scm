@@ -33,6 +33,15 @@
         [sqr (lambda (x) (* x x))])
     (+ (sqr x) (sqr y)))
 ))
+(pretty-print 'cond)
+(pretty-print (interp* '
+  (let ([lk (lambda (k)
+    (cond
+      [(eq? k 'a) 1]
+      [(eq? k 'b) 2]
+      [(eq? k 'c) 3]))])
+  (eq? (lk 'd) (void)))
+))
 (pretty-print 'fact)
 (pretty-print (interp* `
   (let ([fact 0])

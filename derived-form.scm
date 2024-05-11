@@ -61,7 +61,7 @@
               (cons 'begin (cdar rest)))
         (list 'if (car clause)
               (cons 'begin (cdr clause))
-              (if (null? rest) (void) (cond->ifs rest))))))
+              (if (null? (cdr rest)) (list 'void) (cond->ifs rest))))))
 
 #;(`(a b ,c) ===> (list `a `b c))
 #;(`(a ,b ,@c) ===> (append (list 'a) (list 'b) c))

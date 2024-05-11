@@ -118,6 +118,7 @@
   (list 'symbol? symbol?)
   (list 'procedure? procedure?)
   ;;; others
+  (list 'void void)
   (list 'gensym gensym)
   (list 'read read)
   (list 'cons cons)
