@@ -135,13 +135,18 @@
      (map desugar (cons op es))]
     [,e (error desugar 'unknown:e e)]))
 
+(define (quote->cons q)
+  (match q
+    [(quote (,left . ,right))
+     `(cons ,(quote->cons `(quote ,left)) ,(quote->cons `(quote ,right)))]
+    [(quote ()) ''()]
+    [(quote ,q) (guard (not (symbol? q))) q]
+    [(quote ,q) `(quote ,q)]
+    [,() (quote->cons 'unknown:quotation q)]))
+
 (define (desugar-op e)
   (match e
-    [(quote (,left . ,right))
-     (list 'cons (desugar-op (list 'quote left)) (desugar-op (list 'quote right)))]
-    [(quote ()) ''()]
-    [(quote ,q) (guard (not (symbol? q))) (desugar-op q)]
-    [(quote ,q) `(quote ,q)]
+    [(quote ,()) (desugar (quote->cons e))]
     [,v (guard (not (pair? v))) v]
     [(if ,e1 ,e2 ,e3)
      `(if ,(desugar-op e1)

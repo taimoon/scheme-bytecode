@@ -1,3 +1,4 @@
+;;; list
 (define (filter proc xs)
   (if (pair? xs)
       (if (proc (car xs))
@@ -5,9 +6,8 @@
           (filter proc (cdr xs)))
       '()))
 
-(define map
-  (lambda (f ls . more)
-    (if (null? more)
+(define (map f ls . more)
+  (if (null? more)
         (let map1 ([ls ls])
           (if (null? ls)
               '()
@@ -17,8 +17,8 @@
           (if (null? ls)
               '()
               (cons
-                (apply f (car ls) (map car more))
-                (map-more (cdr ls) (map cdr more))))))))
+                (apply f (list (car ls) (map car more)))
+                (map-more (cdr ls) (map cdr more)))))))
 
 (define (fold-left proc obj xs)
   (if (pair? xs)
